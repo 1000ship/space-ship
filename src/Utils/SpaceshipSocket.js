@@ -8,12 +8,12 @@ export default function SpaceshipSocket(host, port, {
   this.userList = [];
 
   this.emit = (eventName, ...args) => {
-    this.socket.emit(eventName, ...args)
+    this.socket.binary(true).emit(eventName, ...args)
   }
 
   this.socket.on("connect", () => {
     console.log("ID", this.socket.id);
-    this.socket.emit("enter", this.socket.id);
+    this.socket.binary(true).emit("enter", this.socket.id);
     this.id = this.socket.id;
   });
 
