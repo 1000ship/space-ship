@@ -29,13 +29,11 @@ const Container = styled.div`
   }
 `;
 
-const CharacterImage = styled.div`
+const CharacterImage = styled.img`
   width: 150px;
   height: 150px;
-  background-image: url(${({ srcImage }) => srcImage});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  object-fit: contain;
+  object-position: center;
 `;
 const CharacterName = styled.span`
   color: white;
@@ -43,9 +41,9 @@ const CharacterName = styled.span`
 `;
 
 const Character = (props) => {
-  const {username = "no-name", x, y} = props;
+  const {username, x, y} = props;
   return <Container x={x} y={y}>
-    <CharacterImage srcImage={GhostCharacter}></CharacterImage>
+    <CharacterImage src={GhostCharacter}></CharacterImage>
     <CharacterName>{username}</CharacterName>
   </Container>;
 };

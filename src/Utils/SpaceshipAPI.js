@@ -1,8 +1,8 @@
 import SpaceshipUser from "./SpaceshipUser";
 import SpaceshipSocket from "./SpaceshipSocket";
 
-// const SOCKET_HOST = "ec2-3-137-150-69.us-east-2.compute.amazonaws.com";
-const SOCKET_HOST = "localhost";
+const SOCKET_HOST = "ec2-3-137-150-69.us-east-2.compute.amazonaws.com";
+// const SOCKET_HOST = "localhost";
 const SOCKET_PORT = 4000;
 
 const onConnect = (id) => {
@@ -44,7 +44,7 @@ const onUserMove = (id, x, y) => {
 var socketController;
 var socket;
 
-export var userMe = new SpaceshipUser("", "");
+export var userMe = new SpaceshipUser();
 export var userList = [];
 var userListCallback = null;
 var userMeCallback = null;

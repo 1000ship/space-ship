@@ -1,4 +1,4 @@
-function SpaceshipUser(id, name) {
+function SpaceshipUser(id = "", name = "") {
   this.id = id
   this.name = name
   this.x = 0

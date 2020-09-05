@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { throttle } from "./Utils/utility";
+import { throttle, makeRandomName } from "./Utils/utility";
 import GamePage from "./Page/GamePage";
 import SpaceshipAPI from "./Utils/SpaceshipAPI";
 import SpaceshipUser from "./Utils/SpaceshipUser";
@@ -10,7 +10,7 @@ function App() {
   const [userList, setUserList] = useState([]);
 
   useEffect( () => {
-    SpaceshipAPI.setUsername( prompt("당신의 이름은?", "바보"))
+    SpaceshipAPI.setUsername( prompt("당신의 이름은?", makeRandomName()) )
     SpaceshipAPI.setUserListCallback((userList) => {
       setUserList(userList)
     });
