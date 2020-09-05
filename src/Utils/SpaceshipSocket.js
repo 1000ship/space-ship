@@ -1,43 +1,47 @@
 import io from "socket.io-client";
 
+export const EVENT_ENTER = "e"
+export const EVENT_EXIT = "x"
+export const EVENT_USER_LIST = "l"
+export const EVENT_USER_MOVE = "m"
+
 export default function SpaceshipSocket(host, port, {
-  onUserListChange, onUserMove
+  onConnect, onUserListChange, onUserMove, userName
 }) {
   this.socket = io(`http://${host}:${port}`);
   this.id = ""
   this.userList = [];
-
-  this.emit = (eventName, ...args) => {
-    this.socket.binary(true).emit(eventName, ...args)
-  }
+  this.userName = "";
 
   this.socket.on("connect", () => {
     console.log("ID", this.socket.id);
-    this.socket.binary(true).emit("enter", this.socket.id);
+    this.socket.binary(true).emit(EVENT_ENTER, this.socket.id, userName);
     this.id = this.socket.id;
+    onConnect(this.id)
   });
 
-  this.socket.on("enter", (id) => {
-    console.log("Enter", id);
-    this.userList.push(id);
+  this.socket.on(EVENT_ENTER, (id, name) => {
+    // console.log("Enter", id, name);
+    this.userList.push({id,name});
     if(onUserListChange) onUserListChange(this.userList)
   });
 
-  this.socket.on("exit", (id) => {
-    console.log("Exit", id);
+  this.socket.on(EVENT_EXIT, (id) => {
+    // console.log("Exit", id);
     const exitIndex = this.userList.findIndex(
-      (each) => each.id === this.socket.id
+      (each) => each.id === id
     );
+    if( exitIndex === -1 ) return
     this.userList.splice(exitIndex, 1);
     if(onUserListChange) onUserListChange(this.userList)
   });
 
-  this.socket.on("user-list", (list) => {
+  this.socket.on(EVENT_USER_LIST, (list) => {
     this.userList = list;
-    if(onUserListChange) onUserListChange(this.userList)
+    if(onUserListChange) onUserListChange(this.userList, true)
   });
 
-  this.socket.on("user-move", (id, x,y) => {
+  this.socket.on(EVENT_USER_MOVE, (id, x,y) => {
     if(onUserMove) onUserMove(id, x, y)
   })
 }
