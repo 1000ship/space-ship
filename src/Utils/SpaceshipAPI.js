@@ -16,10 +16,10 @@ const onUserListChange = (list, withPosition = false) => {
   });
   list.forEach(({ id, name, x = 0, y = 0 }) => {
     const where = result.findIndex((each) => each.id === id);
-    if (where === -1 && id !== socket.id){
-      const user = new SpaceshipUser(id, name)
-      if( withPosition ) user.setPosition( x, y )
-      result.push( user );
+    if (where === -1 && id !== socket.id) {
+      const user = new SpaceshipUser(id, name);
+      if (withPosition) user.setPosition(x, y);
+      result.push(user);
     }
   });
   userList = result;
@@ -28,7 +28,7 @@ const onUserListChange = (list, withPosition = false) => {
 
 const onUserMove = (id, x, y) => {
   if (userMe.id === id) {
-    userMe = userMe.setPosition(x, y);
+    userMe.setPosition(x, y);
     userMeCallback(userMe);
     return;
   }
@@ -38,6 +38,18 @@ const onUserMove = (id, x, y) => {
   result[who].x = x;
   result[who].y = y;
   userList = result;
+  userListCallback(userList);
+};
+
+const onUserTalk = (id, message) => {
+  if (userMe.id === id) {
+    userMe.talk(message, () => userMeCallback(userMe));
+    userMeCallback(userMe);
+    return;
+  }
+  const who = userList.findIndex((each) => each.id === id);
+  if (who === -1) return;
+  userList[who].talk(message, () => userListCallback(userList));
   userListCallback(userList);
 };
 
@@ -51,7 +63,7 @@ var userMeCallback = null;
 
 const SpaceshipAPI = {
   emit: (eventName, ...args) => {
-    if( socket ) socket.binary(true).emit(eventName, ...args);
+    if (socket) socket.binary(true).emit(eventName, ...args);
   },
   setUserListCallback: (func) => {
     userListCallback = func;
@@ -67,10 +79,11 @@ const SpaceshipAPI = {
       onConnect,
       onUserListChange,
       onUserMove,
-      userName: userMe.name
+      onUserTalk,
+      userName: userMe.name,
     });
-    socket = socketController.socket
-  }
+    socket = socketController.socket;
+  },
 };
 
 export default SpaceshipAPI;
