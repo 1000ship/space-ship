@@ -2,17 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import GhostCharacter from "../Resource/Character/ghost.png";
 
-const Container = styled.div`
-  position: absolute;
-  left: ${({ x }) => x}px;
-  top: ${({ y }) => y}px;
-  transition left 1s, top 1s;
+const Container = styled.g`
+  transition: transform 1s;
   
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translate(-50%, -90%);
-  animation-iteration-count: infinite;
+  transform: ${({x,y}) => `translate(${x}px, ${y}px)`} translate(-75px, -150px);
+  /* animation-iteration-count: infinite;
   animation-duration: 1s;
   animation-name: ghost-animation;
 
@@ -26,17 +23,17 @@ const Container = styled.div`
     100% {
       transform: translate(-50%, -90%);
     }
-  }
+  } */
 `;
 
-const CharacterImage = styled.img`
+const CharacterImage = styled.image`
   width: 150px;
   height: 150px;
-  object-fit: contain;
-  object-position: center;
+  /* object-fit: contain;
+  object-position: center; */
 `;
-const CharacterName = styled.span`
-  color: white;
+const CharacterName = styled.text`
+  fill: #000000;
   font-size: 1.5em;
   white-space: nowrap;
 `;
@@ -62,8 +59,8 @@ const Character = (props) => {
 
   return (
     <Container x={x} y={y}>
-      <CharacterImage src={GhostCharacter}></CharacterImage>
-      <CharacterName>{name}</CharacterName>
+      <CharacterImage xlinkHref={GhostCharacter}></CharacterImage>
+      <CharacterName x={0} y={180}>{name}</CharacterName>
       {message && (
         <TalkBox>
           <TalkContent>{message}</TalkContent>
