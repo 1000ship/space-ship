@@ -31,7 +31,8 @@ const GamePage = (props) => {
   };
 
   return (
-    <Container>
+    <Container
+      onMove>
       <Canvas>
         <Stage>
           <BackgroundImage
