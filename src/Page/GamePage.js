@@ -5,15 +5,17 @@ import Character from "../Component/Character";
 import FloatingMenu from "../Component/FloatingMenu";
 
 const Container = styled.div`
+  position:fixed;
   width: 100vw;
   height: 100vh;
+
 `;
 
 const BackgroundImage = styled.img`
   position: absolute;
   left: 0;
   top: 0;
-  width: 1500px;
+  height: 100vh;
 `;
 
 const GamePage = (props) => {
