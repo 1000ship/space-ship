@@ -1,9 +1,8 @@
 import SpaceshipUser from "./SpaceshipUser";
 import SpaceshipSocket from "./SpaceshipSocket";
 
-const SOCKET_HOST = "ec2-3-137-150-69.us-east-2.compute.amazonaws.com";
-// const SOCKET_HOST = "localhost";
-const SOCKET_PORT = 4000;
+const SOCKET_HOST = "223.194.70.105";
+const SOCKET_PORT = 15040;
 
 const onConnect = (id) => {
   userMe.id = id;
